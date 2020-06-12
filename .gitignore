@@ -1,5 +1,7 @@
 .idea/
 
+.env
+
 vendor/
 
-.env
+config/parameters.yml

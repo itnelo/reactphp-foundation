@@ -22,7 +22,7 @@ use Psr\Container\ContainerInterface;
  * approach is based on event loop and non-blocking I/O). Uses implementation of PSR-11 container to manage
  * dependencies.
  */
-class Application
+final class Application
 {
     /**
      * Gives access to object instances (services)

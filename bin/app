@@ -18,19 +18,30 @@ use Foundation\Application;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\Yaml\Yaml;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $envFilePath = __DIR__ . '/../.env';
 
-if (!file_exists($envFilePath)) {
-    throw new RuntimeException("'.env' file is not found.");
+if (file_exists($envFilePath)) {
+    (new Dotenv())->load($envFilePath);
 }
 
-(new Dotenv())->load($envFilePath);
+$configFilePath = __DIR__ . '/../config/parameters.yml';
 
-$parameterBag = new EnvPlaceholderParameterBag();
-$container    = new ContainerBuilder($parameterBag);
+if (!file_exists($configFilePath)) {
+    throw new RuntimeException("File 'parameters.yml' is missing. Please, put it into the 'config' directory.");
+}
+
+$parameters   = Yaml::parseFile($configFilePath);
+$parameterBag = new EnvPlaceholderParameterBag($parameters);
+
+$container = new ContainerBuilder($parameterBag);
+$container->addDefinitions([]);
+
+// we are starting an async web server with some concurrent code
+// so we don't need any caching/preloading logic for this case.
 $container->compile(true);
 
 $application = new Application($container);
