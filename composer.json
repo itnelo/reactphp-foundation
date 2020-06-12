@@ -1,0 +1,39 @@
+{
+    "name": "itnelo/reactphp-foundation",
+    "type": "project",
+    "description": "Some hull parts and scrap to bootstrap an elegant spacecraft w/ ReactPHP",
+    "homepage": "https://github.com/itnelo/reactphp-foundation",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pavel Petrov",
+            "email": "itnelo@gmail.com",
+            "homepage": "https://ppetrov.it",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Foundation\\": ["src/"]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Foundation\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4",
+        "react/event-loop": "^1.1",
+        "react/http": "^0.8.6"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.x-dev"
+        }
+    }
+}
