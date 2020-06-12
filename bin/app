@@ -1,0 +1,37 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of the ReactPHP Foundation <https://github.com/itnelo/reactphp-foundation>.
+ *
+ * (c) 2020 Pavel Petrov <itnelo@gmail.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license https://opensource.org/licenses/mit MIT
+ */
+
+declare(strict_types=1);
+
+use Foundation\Application;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
+use Symfony\Component\Dotenv\Dotenv;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$envFilePath = __DIR__ . '/../.env';
+
+if (!file_exists($envFilePath)) {
+    throw new RuntimeException("'.env' file is not found.");
+}
+
+(new Dotenv())->load($envFilePath);
+
+$parameterBag = new EnvPlaceholderParameterBag();
+$container    = new ContainerBuilder($parameterBag);
+$container->compile(true);
+
+$application = new Application($container);
+$application->run();
