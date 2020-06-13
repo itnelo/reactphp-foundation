@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Foundation;
 
 use Psr\Container\ContainerInterface;
+use React\EventLoop\LoopInterface;
 
 /**
  * Provides the opportunity to run an asynchronous web server with some background tasks in PHP environment (concurrent
@@ -48,5 +49,9 @@ final class Application
      */
     public function run(): void
     {
+        /** @var LoopInterface $loop */
+        $loop = $this->container->get('app.event_loop');
+
+        $loop->run();
     }
 }

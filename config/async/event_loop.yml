@@ -1,0 +1,12 @@
+
+services:
+    app.event_loop:
+        alias: 'app.event_loop.stream_select'
+        public: true
+
+    app.event_loop.stream_select:
+        class: React\EventLoop\StreamSelectLoop
+        factory: ['@app.event_loop_factory', create]
+
+    app.event_loop_factory:
+        class: React\EventLoop\Factory

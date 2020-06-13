@@ -41,13 +41,15 @@ $parameterBag = new EnvPlaceholderParameterBag($parameters);
 
 $container = new ContainerBuilder($parameterBag);
 
-$serviceDefinitionLoader    = new YamlFileLoader($container, new FileLocator());
-$serviceDefinitionFilePaths = [
-    __DIR__ . '/../config/services.yml',
+// loading service definitions.
+$definitionLoader    = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config'));
+$definitionFilePaths = [
+    'async/event_loop.yml',
+    'services.yml',
 ];
 
-foreach ($serviceDefinitionFilePaths as $serviceDefinitionFilePath) {
-    $serviceDefinitionLoader->load($serviceDefinitionFilePath);
+foreach ($definitionFilePaths as $definitionFilePath) {
+    $definitionLoader->load($definitionFilePath);
 }
 
 // we are starting an async web server with some concurrent code
