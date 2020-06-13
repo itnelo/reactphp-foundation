@@ -15,7 +15,9 @@
 declare(strict_types=1);
 
 use Foundation\Application;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Yaml\Yaml;
@@ -38,7 +40,15 @@ $parameters   = Yaml::parseFile($configFilePath);
 $parameterBag = new EnvPlaceholderParameterBag($parameters);
 
 $container = new ContainerBuilder($parameterBag);
-$container->addDefinitions([]);
+
+$serviceDefinitionLoader    = new YamlFileLoader($container, new FileLocator());
+$serviceDefinitionFilePaths = [
+    __DIR__ . '/../config/services.yml',
+];
+
+foreach ($serviceDefinitionFilePaths as $serviceDefinitionFilePath) {
+    $serviceDefinitionLoader->load($serviceDefinitionFilePath);
+}
 
 // we are starting an async web server with some concurrent code
 // so we don't need any caching/preloading logic for this case.

@@ -27,6 +27,7 @@
         "php": ">=7.4",
         "react/event-loop": "^1.1",
         "react/http": "^0.8.6",
+        "symfony/config": "^5.1",
         "symfony/dependency-injection": "^5.1",
         "symfony/dotenv": "^5.1",
         "symfony/yaml": "^5.1"
