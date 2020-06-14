@@ -20,8 +20,10 @@ use React\EventLoop\LoopInterface;
 
 /**
  * Provides the opportunity to run an asynchronous web server with some background tasks in PHP environment (concurrent
- * approach is based on event loop and non-blocking I/O). Uses implementation of PSR-11 container to manage
+ * approach is based on event loop and non-blocking I/O). Uses an implementation of PSR-11 container to manage
  * dependencies.
+ *
+ * @see https://www.php-fig.org/psr/psr-11
  */
 final class Application
 {
@@ -49,6 +51,11 @@ final class Application
      */
     public function run(): void
     {
+        /** @var ServerInterface $server */
+        $server = $this->container->get('app.server');
+
+        $server->up();
+
         /** @var LoopInterface $loop */
         $loop = $this->container->get('app.event_loop');
 

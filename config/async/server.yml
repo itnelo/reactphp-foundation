@@ -1,0 +1,23 @@
+
+services:
+    app.server:
+        alias: 'app.server.async.bridge.react.http_server'
+        public: true
+
+    app.server.async.bridge.react.http_server:
+        class: Foundation\Server\Async\Bridge\React\TcpServer
+        arguments:
+            - '@react.http.streaming_server'
+            - '@react.socket.tcp_server'
+
+    # react
+    react.http.streaming_server:
+        class: React\Http\StreamingServer
+        arguments:
+            - '@app.request.handler'
+
+    react.socket.tcp_server:
+        class: React\Socket\TcpServer
+        arguments:
+            - '%app.server.port%'
+            - '@react.event_loop.stream_select'
