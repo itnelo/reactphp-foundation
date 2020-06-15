@@ -1,11 +1,11 @@
 
 services:
     app.server:
-        alias: 'app.server.async.bridge.react.http_server'
+        alias: 'app.bridge.react.http.server'
         public: true
 
-    app.server.async.bridge.react.http_server:
-        class: Foundation\Server\Async\Bridge\React\HttpServer
+    app.bridge.react.http.server:
+        class: Foundation\Bridge\React\Http\Server
         arguments:
             - '@app.log.logger.stdout'
             - '@react.http.streaming_server'

@@ -13,7 +13,7 @@
 
 declare(strict_types=1);
 
-namespace Foundation\Server\Async\Bridge\React;
+namespace Foundation\Bridge\React\Http;
 
 use Foundation\ServerInterface;
 use Psr\Log\LoggerInterface;
@@ -23,7 +23,7 @@ use React\Socket\TcpServer;
 /**
  * Handles HTTP requests in concurrent approach using TCP/IP server implementation from ReactPHP package
  */
-class HttpServer implements ServerInterface
+class Server implements ServerInterface
 {
     /**
      * Logs information about server interactions
