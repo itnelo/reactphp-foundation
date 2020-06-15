@@ -5,8 +5,9 @@ services:
         public: true
 
     app.server.async.bridge.react.http_server:
-        class: Foundation\Server\Async\Bridge\React\TcpServer
+        class: Foundation\Server\Async\Bridge\React\HttpServer
         arguments:
+            - '@app.log.logger.stdout'
             - '@react.http.streaming_server'
             - '@react.socket.tcp_server'
 

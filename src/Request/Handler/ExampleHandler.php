@@ -18,6 +18,7 @@ namespace Foundation\Request\Handler;
 use Foundation\Request\HandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as RequestInterface;
+use Psr\Log\LoggerInterface;
 use React\Http\Response;
 
 /**
@@ -26,11 +27,30 @@ use React\Http\Response;
 class ExampleHandler implements HandlerInterface
 {
     /**
+     * Logs handler events
+     *
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
+
+    /**
+     * ExampleHandler constructor.
+     *
+     * @param LoggerInterface $logger Logs handler events
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function handle(RequestInterface $request): ResponseInterface
     {
         $response = new Response();
+
+        $this->logger->debug('An HTTP request has been received.');
 
         return $response;
     }

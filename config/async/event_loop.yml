@@ -7,7 +7,4 @@ services:
     # react
     react.event_loop.stream_select:
         class: React\EventLoop\StreamSelectLoop
-        factory: ['@react.event_loop_factory', create]
-
-    react.event_loop_factory:
-        class: React\EventLoop\Factory
+        factory: ['React\EventLoop\Factory', create]

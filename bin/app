@@ -45,6 +45,8 @@ $container = new ContainerBuilder($parameterBag);
 $definitionLoader    = new YamlFileLoader($container, new FileLocator());
 $definitionFilePaths = [
     __DIR__ . '/../config/request_handlers.yml',
+    __DIR__ . '/../config/loggers.yml',
+    __DIR__ . '/../config/async/streams.yml',
     __DIR__ . '/../config/async/server.yml',
     __DIR__ . '/../config/async/event_loop.yml',
     __DIR__ . '/../config/services.yml',

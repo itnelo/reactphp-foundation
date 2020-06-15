@@ -1,0 +1,11 @@
+
+services:
+    app.log.logger.stdout:
+        alias: 'wyrihaximus.react.psr3.stdio_logger.stdout'
+        public: true
+
+    # non-blocking, react-compatible
+    wyrihaximus.react.psr3.stdio_logger.stdout:
+        class: WyriHaximus\React\PSR3\Stdio\StdioLogger
+        arguments:
+            - '@react.stream.writable_resource_stream.stdout'
