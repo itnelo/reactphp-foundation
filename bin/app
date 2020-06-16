@@ -26,8 +26,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $envFilePath = __DIR__ . '/../.env';
 
+// will populate env variables from env-type files (only if they're not already set).
 if (file_exists($envFilePath)) {
-    (new Dotenv())->load($envFilePath);
+    (new Dotenv())->loadEnv($envFilePath);
 }
 
 $configFilePath = __DIR__ . '/../config/parameters.yml';

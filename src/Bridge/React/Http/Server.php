@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Foundation\Bridge\React\Http;
 
+use Exception;
 use Foundation\ServerInterface;
 use Psr\Log\LoggerInterface;
 use React\Http\StreamingServer;
@@ -62,10 +63,28 @@ class Server implements ServerInterface
 
     /**
      * {@inheritDoc}
+     *
+     * // TODO: remove all context placeholders from log messages (after temp logger is removed).
      */
     public function up(): void
     {
         $this->server->listen($this->socket);
+
+        $this->server->on(
+            'error',
+            function (Exception $exception) {
+                $exceptionCode    = $exception->getCode();
+                $exceptionMessage = $exception->getMessage();
+
+                $this->logger->error(
+                    'An error has been occurred during request processing. ({exceptionCode}){exceptionMessage}',
+                    [
+                        'exceptionCode'    => $exceptionCode,
+                        'exceptionMessage' => $exceptionMessage,
+                    ]
+                );
+            }
+        );
 
         $socketAddress = $this->socket->getAddress();
 
