@@ -1,0 +1,39 @@
+
+# This file is part of the ReactPHP Foundation <https://github.com/itnelo/reactphp-foundation>.
+#
+# (c) 2020 Pavel Petrov <itnelo@gmail.com>.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license https://opensource.org/licenses/mit MIT
+
+version: '3'
+
+services:
+    app:
+        build:
+            context: ./docker/${APP_ENV}/app
+            args:
+                PHP_VERSION: ${PHP_VERSION}
+                TIMEZONE: ${TIMEZONE}
+                DEPLOYMENT_PATH: ${DEPLOYMENT_PATH}
+                APP_SERVER_PORT_EXPOSE: ${APP_SERVER_PORT_EXPOSE}
+        networks:
+            - back
+        ports:
+            - "${APP_SERVER_PORT_EXPOSE}:${APP_SERVER_PORT}"
+        volumes:
+            - ${SOURCE_PATH}:${DEPLOYMENT_PATH}
+
+networks:
+    # Debugging example:
+    # docker-compose run -p 6636:6636 --rm app -d xdebug.remote_autostart=1 -d xdebug.remote_host=172.110.0.1 bin/app
+    # you can also try more convenient "host.docker.internal" for some systems.
+    back:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                -   subnet: 172.110.0.0/16
+                    gateway: 172.110.0.1

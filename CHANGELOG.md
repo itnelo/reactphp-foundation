@@ -18,7 +18,7 @@ with `.env` and `parameters.yml` support.
 - Main `Application` class that starts
 the async socket server and the event loop.
 - `ServerInterface` and the `HandlerInterface`, example handler implementation.
-- Non-blocking logger (based on [wyrihaximus/react-psr-3-stdio](https://github.com/WyriHaximus/reactphp-psr-3-stdio))
+- Non-blocking logger (based on [wyrihaximus/react-psr-3-stdio](https://github.com/WyriHaximus/reactphp-psr-3-stdio)).
 
 [Unreleased]: https://github.com/itnelo/reactphp-foundation/compare/0.1.0...0.x
 [0.2.0]: https://github.com/itnelo/reactphp-foundation/compare/0.1.0..0.2.0
