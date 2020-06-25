@@ -8,19 +8,19 @@
 #
 # @license https://opensource.org/licenses/mit MIT
 
-COMPOSE_PROJECT_NAME=reactphp_foundation
+ARG HAPROXY_VERSION
 
-TIMEZONE=Europe/Moscow
-SOURCE_PATH=.
-DEPLOYMENT_PATH=/var/www/foundation
+FROM haproxy:${HAPROXY_VERSION}
 
-# php
-PHP_VERSION=7.4
+ARG TIMEZONE
+ARG HAPROXY_PORT_EXPOSE
 
-# app
-APP_ENV=dev
-APP_SERVER_PORT=6636
+USER root
 
-# haproxy
-HAPROXY_VERSION=2.0
-HAPROXY_PORT_EXPOSE=6637
+# timezone
+RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone && \
+    date
+
+COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
+
+EXPOSE ${HAPROXY_PORT_EXPOSE}/tcp

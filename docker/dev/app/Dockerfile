@@ -37,6 +37,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 USER www-data
 
-EXPOSE ${APP_SERVER_PORT_EXPOSE}/tcp
-
 CMD ["bin/app"]

@@ -8,7 +8,7 @@
 #
 # @license https://opensource.org/licenses/mit MIT
 
-version: '3'
+version: '3.4'
 
 services:
     app:
@@ -18,13 +18,20 @@ services:
                 PHP_VERSION: ${PHP_VERSION}
                 TIMEZONE: ${TIMEZONE}
                 DEPLOYMENT_PATH: ${DEPLOYMENT_PATH}
-                APP_SERVER_PORT_EXPOSE: ${APP_SERVER_PORT_EXPOSE}
         networks:
             - back
-        ports:
-            - "${APP_SERVER_PORT_EXPOSE}:${APP_SERVER_PORT}"
         volumes:
             - ${SOURCE_PATH}:${DEPLOYMENT_PATH}
+
+    haproxy:
+        build:
+            context: ./docker/${APP_ENV}/haproxy
+            args:
+                HAPROXY_VERSION: ${HAPROXY_VERSION}
+                TIMEZONE: ${TIMEZONE}
+                HAPROXY_PORT_EXPOSE: ${HAPROXY_PORT_EXPOSE}
+        networks:
+            - back
 
 networks:
     # Debugging example:
@@ -36,4 +43,3 @@ networks:
             driver: default
             config:
                 -   subnet: 172.110.0.0/16
-                    gateway: 172.110.0.1
