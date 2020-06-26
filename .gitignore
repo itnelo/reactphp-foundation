@@ -2,6 +2,7 @@
 
 .env
 docker-compose.yml
+docker-compose.stack.yml
 
 vendor/
 

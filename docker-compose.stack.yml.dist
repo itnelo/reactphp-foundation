@@ -1,0 +1,59 @@
+
+# This file is part of the ReactPHP Foundation <https://github.com/itnelo/reactphp-foundation>.
+#
+# (c) 2020 Pavel Petrov <itnelo@gmail.com>.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license https://opensource.org/licenses/mit MIT
+
+version: '3.8'
+
+services:
+    app:
+        image: 'image:version'   # tbi, will be available later
+        networks:
+            - back
+        deploy:
+            mode: replicated
+            replicas: 3
+            # placement:    # tbi
+            restart_policy:
+                condition: on-failure
+                delay: 3s
+                max_attempts: 3
+                # time to ensure container is properly restarted
+                window: 30s
+            resources:
+                limits:
+                    cpus: '0.5'
+                    memory: 500M
+                reservations:
+                    cpus: '0.25'
+                    memory: 250M
+
+    haproxy:
+        image: 'haproxy:2.0'
+        networks:
+            - back
+        depends_on:
+            - app
+        volumes:
+            - ./docker/dev/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+        deploy:
+            mode: replicated
+            replicas: 1
+            # placement:    # tbi
+            restart_policy:
+                condition: any
+                delay: 5s
+                max_attempts: 5
+                window: 60s
+
+networks:
+    back:
+        driver: overlay
+        driver_opts:
+            # to encrypt application data; whenever swarm nodes are in different physical data centers
+            encrypted: ''

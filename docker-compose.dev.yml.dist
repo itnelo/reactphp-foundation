@@ -8,7 +8,7 @@
 #
 # @license https://opensource.org/licenses/mit MIT
 
-version: '3.4'
+version: '3.8'
 
 services:
     app:
@@ -32,6 +32,8 @@ services:
                 HAPROXY_PORT_EXPOSE: ${HAPROXY_PORT_EXPOSE}
         networks:
             - back
+        depends_on:
+            - app
 
 networks:
     # Debugging example:
