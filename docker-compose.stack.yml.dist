@@ -12,13 +12,18 @@ version: '3.8'
 
 services:
     app:
-        image: 'image:version'   # tbi, will be available later
+        image: 'IMAGE_NAME:VERSION'   # tbi, will be available later
         networks:
             - back
         deploy:
             mode: replicated
-            replicas: 3
-            # placement:    # tbi
+            replicas: 4
+            placement:
+                constraints:
+                    - "node.role == worker"
+                # distribute containers evenly between all available nodes in the swarm by configured geography
+                preferences:
+                    -   spread: node.labels.provider_location_machine
             restart_policy:
                 condition: on-failure
                 delay: 3s
@@ -44,7 +49,11 @@ services:
         deploy:
             mode: replicated
             replicas: 1
-            # placement:    # tbi
+            placement:
+                # fixed place, on the specified node in swarm
+                constraints:
+                    - "node.role == manager"
+                    - "node.labels.provider_location_machine == do.fra1.d1"
             restart_policy:
                 condition: any
                 delay: 5s
