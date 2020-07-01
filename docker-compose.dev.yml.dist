@@ -19,7 +19,7 @@ services:
                 TIMEZONE: ${TIMEZONE}
                 DEPLOYMENT_PATH: ${DEPLOYMENT_PATH}
         networks:
-            - back
+            - back_bridge
         volumes:
             - ${SOURCE_PATH}:${DEPLOYMENT_PATH}
 
@@ -31,7 +31,7 @@ services:
                 TIMEZONE: ${TIMEZONE}
                 HAPROXY_PORT_EXPOSE: ${HAPROXY_PORT_EXPOSE}
         networks:
-            - back
+            - back_bridge
         depends_on:
             - app
 
@@ -39,7 +39,7 @@ networks:
     # Debugging example:
     # docker-compose run -p 6636:6636 --rm app -d xdebug.remote_autostart=1 -d xdebug.remote_host=172.110.0.1 bin/app
     # you can also try more convenient "host.docker.internal" for some systems.
-    back:
+    back_bridge:
         driver: bridge
         ipam:
             driver: default
