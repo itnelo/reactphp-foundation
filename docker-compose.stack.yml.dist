@@ -12,7 +12,7 @@ version: '3.8'
 
 services:
     app:
-        image: 'IMAGE_NAME:VERSION'
+        image: '${APP_STACK_IMAGE_NAME}:${APP_STACK_IMAGE_VERSION}'
         networks:
             - back_overlay
         deploy:
@@ -46,11 +46,11 @@ services:
                     memory: 250M
 
     haproxy:
-        image: 'haproxy:2.0'
+        image: 'haproxy:${HAPROXY_VERSION}'
         networks:
             - back_overlay
         ports:
-            -   published: 6637
+            -   published: ${HAPROXY_PORT_EXPOSE}
                 target: 80
                 protocol: tcp
                 # to bypass the ingress routing mesh and route requests directly to the local container

@@ -18,9 +18,8 @@ This skeleton for self-sufficient, asynchronous microservice contains:
     - `symfony/config`
     - `symfony/yaml`
 
-It follows strong SOLID design and fully PSR-compatible, 
-with PHP 7.4+ features in mind
-(starting with typed properties). 
+It follows strong SOLID design and fully PSR-compatible, built
+with PHP 7.4+ features in mind (starting with typed properties). 
 
 It is also relatively lightweight and takes benefits
 from both [Symfony](https://github.com/symfony/symfony) components
@@ -63,7 +62,7 @@ To                         Action      From
 **Limitations**. This setup assumes you are using a single haproxy instance,
 on the fixed node in the cluster and only that node will have its ports published:
 
-\*\*image\*\*
+![how it works schema](https://github.com/itnelo/reactphp-foundation/blob/0.x/.github/images/how_it_works_schema.png)
 
 **Step 1**. Create a manager node (for haproxy with exposed ports):
 
@@ -93,31 +92,38 @@ $ docker node update --label-add provider_location_machine=do.fra1.d1 HOSTNAME
 
 where `HOSTNAME` is a server identifier, see `docker node ls` on the manager node.
 
-**Step 3**. Clone the repository and apply stack configuration:
+**Step 3**. Clone the repository and adjust environment variables:
 
 ```
 # our pc
 $ git clone git@github.com:itnelo/reactphp-foundation.git my-service && cd "$_"
-$ cp docker-compose.stack.yml.dist docker-compose.stack.yml
+$ cp .env.dev.dist .env
 ```
 
-Replace `IMAGE_NAME` and `VERSION` placeholders with your image
-from the desired registry. You should also adjust placement constraints
+Fill `APP_STACK_IMAGE_NAME` and `APP_STACK_IMAGE_VERSION` with your image metadata
+from the desired registry.
+
+**Step 4**. Apply stack configuration:
+
+```
+# our pc
+$ set -a; . .env; set +a && envsubst < docker-compose.stack.yml.dist > docker-compose.stack.yml
+```
+
+You should also adjust placement constraints
 (according to **Step 2**) to ensure Swarm scheduler is able to assign tasks
-to the configured nodes.
+to the configured nodes. Check `haproxy.stack.cfg` from the `docker` directory
+if you have changed some ports or just use a custom haproxy image as well.
 
-You may also need to check `haproxy.stack.cfg` from the `docker` directory
-if you have changed some ports for your environment or just use a custom haproxy image.
-
-**Step 4**. Deploy services:
+**Step 5**. Deploy services:
 
 ```
 # our pc
 $ docker stack deploy --orchestrator swarm --compose-file docker-compose.stack.yml my-service
 ```
 
-By accessing `192.169.56.1:6637/stats` (if you stick to the suggested default configuration)
-you should now see a rendered page with haproxy statistics for your backend:
+By accessing `192.169.56.1:6637/stats` (if you stick to the default configuration; 
+use your manager node IP) a rendered page with backend statistics should be available:
 
 \*\*image\*\*
 
