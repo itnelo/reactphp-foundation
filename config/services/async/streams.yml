@@ -1,8 +1,11 @@
 
 services:
+    app.writable_stream.stdout:
+        alias: 'react.stream.writable_resource_stream.stdout'
+
     # react
     react.stream.writable_resource_stream.stdout:
         class: React\Stream\WritableResourceStream
         arguments:
             - !php/const STDOUT
-            - '@react.event_loop.stream_select'
+            - '@app.event_loop'

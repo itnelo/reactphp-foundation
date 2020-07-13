@@ -21,4 +21,4 @@ services:
         class: React\Socket\TcpServer
         arguments:
             - '%app.server.host%:%app.server.port%'
-            - '@react.event_loop.stream_select'
+            - '@app.event_loop'

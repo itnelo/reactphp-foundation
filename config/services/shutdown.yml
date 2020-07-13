@@ -1,0 +1,7 @@
+
+services:
+    app.shutdown:
+        class: Foundation\Shutdown
+        public: true
+        arguments:
+            - '@app.event_loop'
