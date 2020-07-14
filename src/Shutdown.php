@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Foundation;
 
+use Psr\Log\LoggerInterface;
 use React\EventLoop\LoopInterface;
 
 /**
@@ -23,6 +24,13 @@ use React\EventLoop\LoopInterface;
  */
 class Shutdown
 {
+    /**
+     * Performs logging for cleanup procedures
+     *
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
+
     /**
      * Event loop
      *
@@ -33,21 +41,30 @@ class Shutdown
     /**
      * Shutdown constructor.
      *
-     * @param LoopInterface $loop Event loop
+     * @param LoggerInterface $logger Performs logging for cleanup procedures
+     * @param LoopInterface   $loop   Event loop
      */
-    public function __construct(LoopInterface $loop)
+    public function __construct(LoggerInterface $logger, LoopInterface $loop)
     {
-        $this->loop = $loop;
+        $this->logger = $logger;
+        $this->loop   = $loop;
     }
 
     /**
-     *
+     * Stops the event loop and performs any other cleanup routines
      *
      * @return void
      */
     public function execute(): void
     {
-        $this->loop->stop();
+        $this->logger->info('Stopping event loop...');
+
+        $this->loop->addTimer(
+            1.0,
+            function () {
+                $this->loop->stop();
+            }
+        );
     }
 
     /**

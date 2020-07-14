@@ -125,7 +125,7 @@ $ docker stack deploy --orchestrator swarm --compose-file docker-compose.stack.y
 By accessing `192.169.56.1:6637/stats` (if you stick to the default configuration; 
 use your manager node IP) a rendered page with backend statistics should be available:
 
-\*\*image\*\*
+![haproxy stats](https://github.com/itnelo/reactphp-foundation/blob/0.x/.github/images/haproxy_stats.png)
 
 \*\*TBD: rebalancing\*\*
 

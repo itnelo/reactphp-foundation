@@ -59,6 +59,23 @@ final class Application
         /** @var LoopInterface $loop */
         $loop = $this->container->get('app.event_loop');
 
+        $this->setShutdownConditions($loop);
+
         $loop->run();
+    }
+
+    /**
+     * Binds signals for loop's termination
+     *
+     * @param LoopInterface $loop Event loop
+     *
+     * @return void
+     */
+    private function setShutdownConditions(LoopInterface $loop): void
+    {
+        $shutdown = $this->container->get('app.shutdown');
+
+        $loop->addSignal(SIGINT, $shutdown);
+        $loop->addSignal(SIGTERM, $shutdown);
     }
 }
