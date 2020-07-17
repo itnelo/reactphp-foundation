@@ -58,7 +58,7 @@ class ExampleHandler implements HandlerInterface
     /**
      * {@inheritDoc}
      */
-    public function handle(RequestInterface $request): ResponseInterface
+    public function __invoke(RequestInterface $request): ResponseInterface
     {
         $this->logger->debug('An HTTP request has been received.');
 
@@ -78,17 +78,5 @@ class ExampleHandler implements HandlerInterface
         );
 
         return $response;
-    }
-
-    /**
-     * Performs proxy pass to the handle method with request processing logic
-     *
-     * @param RequestInterface $request PSR-7 request message
-     *
-     * @return ResponseInterface
-     */
-    public function __invoke(RequestInterface $request)
-    {
-        return $this->handle($request);
     }
 }

@@ -59,12 +59,7 @@ class Shutdown
     {
         $this->logger->info('Stopping event loop...');
 
-        $this->loop->addTimer(
-            1.0,
-            function () {
-                $this->loop->stop();
-            }
-        );
+        $this->loop->addTimer(0.5, fn() => $this->loop->stop());
     }
 
     /**

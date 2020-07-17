@@ -20,20 +20,10 @@ services:
                 DEPLOYMENT_PATH: ${DEPLOYMENT_PATH}
         networks:
             - back_bridge
+        ports:
+            - "${APP_SERVER_PORT}:${APP_SERVER_PORT}"
         volumes:
             - ${SOURCE_PATH}:${DEPLOYMENT_PATH}
-
-    haproxy:
-        build:
-            context: ./docker/${APP_ENV}/haproxy
-            args:
-                HAPROXY_VERSION: ${HAPROXY_VERSION}
-                TIMEZONE: ${TIMEZONE}
-                HAPROXY_PORT_EXPOSE: ${HAPROXY_PORT_EXPOSE}
-        networks:
-            - back_bridge
-        depends_on:
-            - app
 
 networks:
     # Debugging example:

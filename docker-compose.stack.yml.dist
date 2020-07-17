@@ -40,10 +40,10 @@ services:
             resources:
                 limits:
                     cpus: '0.5'
-                    memory: 500M
+                    memory: 512M
                 reservations:
                     cpus: '0.25'
-                    memory: 250M
+                    memory: 256M
 
     haproxy:
         image: 'haproxy:${HAPROXY_VERSION}'
@@ -66,7 +66,7 @@ services:
             mode: replicated
             replicas: 1
             placement:
-                # fixed place, on the specified node in swarm; single instance
+                # fixed place, on the specified swarm node; single instance
                 constraints:
                     - "node.role == manager"
             restart_policy:
@@ -75,6 +75,11 @@ services:
                 max_attempts: 5
                 window: 60s
 
+    # suggestion: swarmpit (https://github.com/swarmpit/swarmpit)
+    # use a separate scope for all monitoring/analysis/other tools to keep projects clean and highly cohesive
+    # you can find an example of compose project configuration for such services here:
+    # https://github.com/symfony-doge/management-kit
+
 networks:
     back_overlay:
         driver: overlay
@@ -82,3 +87,5 @@ networks:
             # to encrypt data transfer between nodes; whenever swarm nodes are in different data centers and no other
             # security measures applied
             encrypted: ''
+        # to ensure an external service can access to this network
+        attachable: true
