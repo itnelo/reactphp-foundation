@@ -5,4 +5,5 @@ parameters:
     app.locale: en
 
     # Socket server configuration
+    app.server.host: 'tcp://0.0.0.0'
     app.server.port: '%env(int:APP_SERVER_PORT)%'

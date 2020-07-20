@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Foundation\Request\Handler;
 
+use Exception;
 use Foundation\Request\HandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as RequestInterface;
@@ -34,36 +35,48 @@ class ExampleHandler implements HandlerInterface
     private LoggerInterface $logger;
 
     /**
+     * Handler's unique identifier
+     *
+     * @var string
+     */
+    private static string $uid;
+
+    /**
      * ExampleHandler constructor.
      *
      * @param LoggerInterface $logger Logs handler events
+     *
+     * @throws Exception
      */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
+
+        self::$uid = bin2hex(random_bytes(4));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function handle(RequestInterface $request): ResponseInterface
+    public function __invoke(RequestInterface $request): ResponseInterface
     {
-        $response = new Response();
-
         $this->logger->debug('An HTTP request has been received.');
 
-        return $response;
-    }
+        $responseBody = json_encode(
+            [
+                'uid' => self::$uid,
+                'ts'  => time(),
+            ]
+        );
 
-    /**
-     * Performs proxy pass to the handle method with request processing logic
-     *
-     * @param RequestInterface $request PSR-7 request message
-     *
-     * @return ResponseInterface
-     */
-    public function __invoke(RequestInterface $request)
-    {
-        return $this->handle($request);
+        $response = new Response(
+            200,
+            [
+                'Content-Type' => 'application/json; charset=utf-8',
+            ],
+            $responseBody
+        );
+
+        return $response;
     }
 }

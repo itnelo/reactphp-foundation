@@ -34,5 +34,5 @@ interface HandlerInterface
      *
      * @return ResponseInterface
      */
-    public function handle(RequestInterface $request): ResponseInterface;
+    public function __invoke(RequestInterface $request): ResponseInterface;
 }
