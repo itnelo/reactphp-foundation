@@ -87,5 +87,5 @@ networks:
             # to encrypt data transfer between nodes; whenever swarm nodes are in different data centers and no other
             # security measures applied
             encrypted: ''
-        # to ensure an external service can access to this network
+        # to ensure an external service can access this network
         attachable: true

@@ -59,7 +59,7 @@ foreach ($definitionFilePaths as $definitionFilePath) {
 }
 
 // we are starting an async web server with some concurrent code
-// so we don't need any caching/preloading logic for this case.
+// so we don't need any container caching logic for this case.
 $container->compile(true);
 
 $application = new Application($container);

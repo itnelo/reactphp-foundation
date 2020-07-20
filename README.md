@@ -62,7 +62,7 @@ To                         Action      From
 **Limitations**. This setup assumes you are using a single haproxy instance,
 on the fixed node in the cluster and only that node will have its ports published:
 
-![how it works schema](https://github.com/itnelo/reactphp-foundation/blob/0.x/.github/images/how_it_works_schema.png)
+![how it works schema](https://github.com/itnelo/reactphp-foundation/blob/master/.github/images/how_it_works_schema.png)
 
 **Step 1**. Create a manager node (for haproxy with exposed ports):
 
@@ -125,9 +125,13 @@ $ docker stack deploy --orchestrator swarm --compose-file docker-compose.stack.y
 By accessing `192.169.56.1:6637/stats` (if you stick to the default configuration; 
 use your manager node IP) a rendered page with backend statistics should be available:
 
-![haproxy stats](https://github.com/itnelo/reactphp-foundation/blob/0.x/.github/images/haproxy_stats.png)
+![haproxy stats](https://github.com/itnelo/reactphp-foundation/blob/master/.github/images/haproxy_stats.png)
 
-\*\*TBD: rebalancing\*\*
+To rebalance app replicas between nodes, after one is added or removed, use:
+
+```
+$ docker service update --force my-service_app
+```
 
 ## See also
 
