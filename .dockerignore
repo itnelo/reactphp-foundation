@@ -1,0 +1,13 @@
+.idea
+.git
+.gitignore
+.github
+config/parameters.yml
+node_modules
+tests
+vendor
+LICENSE
+README.md
+CHANGELOG.md
+*.yml
+*.yml.dist
