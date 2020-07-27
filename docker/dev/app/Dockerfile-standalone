@@ -52,9 +52,12 @@ RUN chown www-data:www-data /var/www ${DEPLOYMENT_PATH}
 USER www-data
 
 # dependencies
-RUN composer install --no-dev --no-interaction --no-scripts --classmap-authoritative --ansi
+RUN composer install --no-interaction --no-scripts --classmap-authoritative --ansi
 
 # configurations
 RUN cp config/parameters.yml.dev.dist config/parameters.yml
+
+# NOTE: this is still a development/testing suite, it is not fully optimized for production usage.
+# You may want to exclude xdebug, configure opcache, "--no-dev" option for composer and make other improvements.
 
 CMD ["bin/app"]

@@ -7,7 +7,6 @@ node_modules
 tests
 vendor
 LICENSE
-README.md
-CHANGELOG.md
+*.md
 *.yml
 *.yml.dist
