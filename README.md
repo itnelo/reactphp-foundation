@@ -130,6 +130,7 @@ use your manager node IP) a rendered page with backend statistics should be avai
 To rebalance app replicas between nodes, after one is added or removed, use:
 
 ```
+# our pc
 $ docker service update --force my-service_app
 ```
 

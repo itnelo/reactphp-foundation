@@ -11,6 +11,8 @@
  * @license https://opensource.org/licenses/mit MIT
  */
 
+declare(strict_types=1);
+
 namespace Foundation\Bridge\Symfony\Component\DependencyInjection\Loader;
 
 use Symfony\Component\Config\FileLocatorInterface;

@@ -18,7 +18,7 @@ ARG DEPLOYMENT_PATH
 WORKDIR ${DEPLOYMENT_PATH}
 
 # see .dockerignore
-COPY --chown=www-data:www-data . .
+COPY --chown=www-data:www-data . ./
 
 USER root
 
@@ -30,7 +30,8 @@ RUN apt-get update && apt-get install -qy --no-install-recommends \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # timezone
-RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone && \
+RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
+    echo ${TIMEZONE} > /etc/timezone && \
     printf '[PHP]\ndate.timezone = "%s"\n', ${TIMEZONE} > /usr/local/etc/php/conf.d/tzone.ini && \
     date
 
