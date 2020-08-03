@@ -17,8 +17,9 @@ namespace Foundation\Bridge\Symfony\Component\DependencyInjection\Configurator;
 
 use Exception;
 use Foundation\Bridge\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use LogicException;
 use RuntimeException;
-use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
 use Symfony\Component\Dotenv\Dotenv;
@@ -29,11 +30,32 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Configures a container instance according to passed environment variables, parameters and service definitions.
- * Uses Dotenv library to load environment variables and expects YAML format for configuration files,
- * doesn't perform any sort of premature compilation for the container.
+ * Uses Dotenv library to load environment variables and expects YAML format for configuration files.
+ * Doesn't perform any sort of premature compilation for the container.
+ *
+ * It is designed to encapsulate boilerplate code for different entrypoints of application which utilizes
+ * Symfony's DI container separately from the Kernel. Usage example:
+ *
+ * ```
+ * $containerConfigurator = new YamlConfigurator(new \Symfony\Component\Config\FileLocator());
+ * $containerConfigurator->setEnvironmentFilePath(__DIR__ . '/../.env');
+ * $containerConfigurator->setParameterFilePath(__DIR__ . '/../config/parameters.yml');
+ * $containerConfigurator->setDefinitionFilePaths([__DIR__ . '/../config/services.yml']);
+ * $containerConfigurator->setDefinitionDefaultsFilePath(__DIR__ . '/../config/services.yml');
+ *
+ * $container = $containerConfigurator->getContainerBuilder();
+ * // continue container compiling.
+ * ```
  */
 class YamlConfigurator
 {
+    /**
+     * Finds file by the given logical path
+     *
+     * @var FileLocatorInterface
+     */
+    private FileLocatorInterface $fileLocator;
+
     /**
      * Path to file with environment variables
      *
@@ -66,10 +88,14 @@ class YamlConfigurator
     private ?string $definitionDefaultsFilePath;
 
     /**
-     * ContainerConfigurator constructor.
+     * YamlConfigurator constructor.
+     *
+     * @param FileLocatorInterface $fileLocator Finds file by the given logical path
      */
-    public function __construct()
+    public function __construct(FileLocatorInterface $fileLocator)
     {
+        $this->fileLocator = $fileLocator;
+
         $this->environmentFilePath        = null;
         $this->parameterFilePath          = null;
         $this->definitionFilePaths        = null;
@@ -81,7 +107,7 @@ class YamlConfigurator
      *
      * @return ContainerBuilder
      *
-     * @throws EnvFilePathException   when a file with environment variables doesn't exist or isn't readable
+     * @throws EnvFilePathException   When a file with environment variables doesn't exist or isn't readable
      * @throws EnvFileFormatException When a file with environment variables has a syntax error
      * @throws YamlFileParseException If the file with configuration parameters couldn't be read or the YAML isn't valid
      * @throws Exception              If an error of any other type has been occurred during container configuration
@@ -89,6 +115,12 @@ class YamlConfigurator
     public function getContainerBuilder(): ContainerBuilder
     {
         if (is_string($this->environmentFilePath) && file_exists($this->environmentFilePath)) {
+            if (!class_exists(Dotenv::class)) {
+                throw new LogicException(
+                    'Install Dotenv component to be able to load environment variables from the env-type files.'
+                );
+            }
+
             $dotenv = new Dotenv();
 
             // will populate env variables from env-type files (only if they're not already set).
@@ -114,8 +146,11 @@ class YamlConfigurator
             }
 
             // loading service definitions.
-            $fileLocator      = new FileLocator();
-            $definitionLoader = new YamlFileLoader($containerBuilder, $fileLocator, $this->definitionDefaultsFilePath);
+            $definitionLoader = new YamlFileLoader(
+                $containerBuilder,
+                $this->fileLocator,
+                $this->definitionDefaultsFilePath
+            );
 
             foreach ($this->definitionFilePaths as $definitionFilePath) {
                 $definitionLoader->load($definitionFilePath);

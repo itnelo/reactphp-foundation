@@ -1,6 +1,15 @@
 
 # ReactPHP Foundation
 
+- [What's inside?](#whats-inside)
+- [Installation](#installation)
+    - [Docker Swarm](#docker-swarm)
+- [Tests](#tests)
+- [See also](#see-also)
+- [Changelog](#changelog)
+
+## What's inside?
+
 This skeleton for self-sufficient, asynchronous microservice contains:
 
 - Interfaces
@@ -132,6 +141,17 @@ To rebalance app replicas between nodes, after one is added or removed, use:
 ```
 # our pc
 $ docker service update --force my-service_app
+```
+
+## Tests
+
+Apply test suite configuration and run [phpunit](https://github.com/sebastianbergmann/phpunit):
+
+```
+$ cp phpunit.xml.dist phpunit.xml
+
+# docker-compose installation
+$ docker-compose run --rm app bin/phpunit
 ```
 
 ## See also

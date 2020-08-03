@@ -8,3 +8,4 @@ services:
         class: Foundation\Request\Handler\ExampleHandler
         arguments:
             - '@app.log.logger.stdout'
+            - '@app.request.uri.matcher'

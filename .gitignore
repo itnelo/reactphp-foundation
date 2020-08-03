@@ -7,3 +7,5 @@ docker-compose.stack.yml
 vendor/
 
 config/parameters.yml
+
+phpunit.xml

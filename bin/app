@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 use Foundation\Application;
 use Foundation\Bridge\Symfony\Component\DependencyInjection\Configurator\YamlConfigurator;
+use Symfony\Component\Config\FileLocator;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -25,12 +26,13 @@ if (!file_exists($parameterFilePath)) {
     throw new RuntimeException("File 'parameters.yml' is missing. Please, put it into the 'config' directory.");
 }
 
-$containerConfigurator = new YamlConfigurator();
+$containerConfigurator = new YamlConfigurator(new FileLocator());
 $containerConfigurator->setEnvironmentFilePath(__DIR__ . '/../.env');
 $containerConfigurator->setParameterFilePath($parameterFilePath);
 $containerConfigurator->setDefinitionFilePaths(
     [
-        __DIR__ . '/../config/services/request_handlers.yml',
+        __DIR__ . '/../config/services/request/uri_matcher.yml',
+        __DIR__ . '/../config/services/request/handler.yml',
         __DIR__ . '/../config/services/loggers.yml',
         __DIR__ . '/../config/services/shutdown.yml',
         __DIR__ . '/../config/services/async/streams.yml',

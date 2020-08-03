@@ -48,7 +48,7 @@ class Server implements ServerInterface
     private TcpServer $socket;
 
     /**
-     * TcpServer constructor.
+     * Server constructor.
      *
      * @param LoggerInterface $logger Logs information about server interactions
      * @param StreamingServer $server Processes incoming HTTP requests
@@ -77,7 +77,7 @@ class Server implements ServerInterface
                 $exceptionMessage = $exception->getMessage();
 
                 $this->logger->error(
-                    'An error has been occurred during request processing. ({exceptionCode}){exceptionMessage}',
+                    'An error has been occurred during request processing: ({exceptionCode}){exceptionMessage}',
                     [
                         'exceptionCode'    => $exceptionCode,
                         'exceptionMessage' => $exceptionMessage,

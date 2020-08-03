@@ -38,6 +38,9 @@
         "symfony/yaml": "^5.1",
         "wyrihaximus/react-psr-3-stdio": "^2.1"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2"
+    },
     "config": {
         "sort-packages": true
     },

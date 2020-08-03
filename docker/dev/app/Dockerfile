@@ -20,6 +20,13 @@ WORKDIR ${DEPLOYMENT_PATH}
 
 USER root
 
+# system
+RUN apt-get update && apt-get install -qy --no-install-recommends \
+        # composer
+        unzip
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 # timezone
 RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
     echo ${TIMEZONE} > /etc/timezone && \
