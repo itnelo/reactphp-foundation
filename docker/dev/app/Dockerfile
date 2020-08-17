@@ -12,16 +12,24 @@ ARG PHP_VERSION
 
 FROM php:${PHP_VERSION}-cli
 
+ARG HOST_UID
 ARG TIMEZONE
 ARG DEPLOYMENT_PATH
-ARG APP_SERVER_PORT_EXPOSE
 
 WORKDIR ${DEPLOYMENT_PATH}
 
 USER root
 
+# system
+RUN apt-get update && apt-get install -qy --no-install-recommends \
+        # composer
+        unzip
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 # timezone
-RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone && \
+RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
+    echo ${TIMEZONE} > /etc/timezone && \
     printf '[PHP]\ndate.timezone = "%s"\n', ${TIMEZONE} > /usr/local/etc/php/conf.d/tzone.ini && \
     date
 
@@ -38,6 +46,16 @@ COPY php.ini /usr/local/etc/php/conf.d/php.ini
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer --version
 
+# permissions
+RUN chown www-data:www-data /var/www ${DEPLOYMENT_PATH} && \
+    usermod -u ${HOST_UID} www-data
+
 USER www-data
+
+# Manage packages and configurations for local development using this environment:
+# docker-compose run --rm --no-deps app cp config/parameters.yml.dev.dist config/parameters.yml
+# docker-compose run --rm --no-deps app composer install
+
+# See Dockerfile-standalone if you want to build an isolated and immutable container.
 
 CMD ["bin/app"]

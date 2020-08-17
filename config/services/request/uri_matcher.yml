@@ -1,0 +1,10 @@
+
+services:
+    app.request.uri.matcher:
+        alias: 'app.request.uri.matcher.array_matcher'
+        public: true
+
+    app.request.uri.matcher.array_matcher:
+        class: Foundation\Request\Uri\Matcher\ArrayMatcher
+        arguments:
+            -   /: 'main-page'

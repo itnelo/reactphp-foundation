@@ -14,10 +14,11 @@ FROM php:${PHP_VERSION}-cli
 
 ARG TIMEZONE
 ARG DEPLOYMENT_PATH
-ARG APP_SERVER_PORT_EXPOSE
 
 WORKDIR ${DEPLOYMENT_PATH}
-COPY . .
+
+# see .dockerignore
+COPY --chown=www-data:www-data . ./
 
 USER root
 
@@ -29,7 +30,8 @@ RUN apt-get update && apt-get install -qy --no-install-recommends \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # timezone
-RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone && \
+RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
+    echo ${TIMEZONE} > /etc/timezone && \
     printf '[PHP]\ndate.timezone = "%s"\n', ${TIMEZONE} > /usr/local/etc/php/conf.d/tzone.ini && \
     date
 
@@ -43,9 +45,20 @@ RUN docker-php-ext-install pcntl
 COPY docker/dev/app/php.ini /usr/local/etc/php/conf.d/php.ini
 
 # composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    composer install --no-dev --no-interaction --no-scripts --classmap-authoritative --ansi
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# permissions
+RUN chown www-data:www-data /var/www ${DEPLOYMENT_PATH}
 
 USER www-data
+
+# dependencies
+RUN composer install --no-interaction --no-scripts --classmap-authoritative --ansi
+
+# configurations
+RUN cp config/parameters.yml.dev.dist config/parameters.yml
+
+# NOTE: this is still a development/testing suite, it is not fully optimized for production usage.
+# You may want to exclude xdebug, configure opcache, "--no-dev" option for composer and make other improvements.
 
 CMD ["bin/app"]

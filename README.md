@@ -1,6 +1,15 @@
 
 # ReactPHP Foundation
 
+- [What's inside?](#whats-inside)
+- [Installation](#installation)
+    - [Docker Swarm](#docker-swarm)
+- [Tests](#tests)
+- [See also](#see-also)
+- [Changelog](#changelog)
+
+## What's inside?
+
 This skeleton for self-sufficient, asynchronous microservice contains:
 
 - Interfaces
@@ -21,10 +30,15 @@ This skeleton for self-sufficient, asynchronous microservice contains:
 It follows strong SOLID design and fully PSR-compatible, built
 with PHP 7.4+ features in mind (starting with typed properties). 
 
-It is also relatively lightweight and takes benefits
+It is also _relatively_ lightweight and takes benefits
 from both [Symfony](https://github.com/symfony/symfony) components
 and [ReactPHP](https://github.com/reactphp/reactphp)
 without raising up a heavy artillery setup.
+
+There are a few deployment configurations
+([Docker Compose](https://docs.docker.com/compose) project and
+stack for [Docker Swarm](https://docs.docker.com/engine/swarm/key-concepts),
+featuring [HAProxy](https://www.haproxy.com) as a load balancer for your code).
 
 ## Installation
 
@@ -130,7 +144,19 @@ use your manager node IP) a rendered page with backend statistics should be avai
 To rebalance app replicas between nodes, after one is added or removed, use:
 
 ```
+# our pc
 $ docker service update --force my-service_app
+```
+
+## Tests
+
+Apply test suite configuration and run [phpunit](https://github.com/sebastianbergmann/phpunit):
+
+```
+$ cp phpunit.xml.dist phpunit.xml
+
+# for docker-compose installation
+$ docker-compose run --rm app bin/phpunit
 ```
 
 ## See also
