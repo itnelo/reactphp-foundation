@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @license https://opensource.org/licenses/GPL-3.0 GPL-3.0
+ * @license https://opensource.org/licenses/mit MIT
  */
 
 declare(strict_types=1);
@@ -46,22 +46,22 @@ class ArrayMatcher implements MatcherInterface
      */
     public function match(string $uriPath): ?Match
     {
-        $match = null;
+        $uriMatch = null;
 
         foreach ($this->uriToAction as $uriForMatch => $actionName) {
             if (!$this->isUriMatch($uriPath, $uriForMatch)) {
                 continue;
             }
 
-            $match = new Match();
+            $uriMatch = new Match();
 
             $actionNameNormalized = (string) $actionName;
-            $match->setActionName($actionNameNormalized);
+            $uriMatch->setActionName($actionNameNormalized);
 
             break;
         }
 
-        return $match;
+        return $uriMatch;
     }
 
     /**

@@ -14,12 +14,16 @@
     ],
     "autoload": {
         "psr-4": {
-            "Foundation\\": ["src/"]
+            "Foundation\\": [
+                "src/"
+            ]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Foundation\\Tests\\": "tests/"
+            "Foundation\\Tests\\": [
+                "tests/unit"
+            ]
         }
     },
     "minimum-stability": "stable",

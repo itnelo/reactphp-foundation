@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @license https://opensource.org/licenses/GPL-3.0 GPL-3.0
+ * @license https://opensource.org/licenses/mit MIT
  */
 
 declare(strict_types=1);
@@ -23,16 +23,24 @@ class Match
     /**
      * Action name to generate a response for the given request
      *
-     * @var string
+     * @var string|null
      */
-    private string $actionName;
+    private ?string $actionName;
+
+    /**
+     * Match constructor.
+     */
+    public function __construct()
+    {
+        $this->actionName = null;
+    }
 
     /**
      * Returns action name to generate a response for the given request
      *
-     * @return string
+     * @return string|null
      */
-    public function getActionName(): string
+    public function getActionName(): ?string
     {
         return $this->actionName;
     }

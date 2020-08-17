@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @license https://opensource.org/licenses/GPL-3.0 GPL-3.0
+ * @license https://opensource.org/licenses/mit MIT
  */
 
 declare(strict_types=1);
@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Tests if ArrayMatcher compares URI against a predefined set correctly
  */
-class ArrayMatcherTest extends TestCase
+final class ArrayMatcherTest extends TestCase
 {
     /**
      * Performs URI match using predefined array of mappings (uri-actionName)
@@ -48,7 +48,7 @@ class ArrayMatcherTest extends TestCase
     }
 
     /**
-     * Tests isUriMatch method for negative match case
+     * Tests match method for negative match case
      *
      * @return void
      */
@@ -63,7 +63,7 @@ class ArrayMatcherTest extends TestCase
     }
 
     /**
-     * Tests isUriMatch method for positive ASCII URI match case
+     * Tests match method for positive ASCII URI match case
      *
      * @return void
      */
@@ -87,7 +87,7 @@ class ArrayMatcherTest extends TestCase
     }
 
     /**
-     * Tests isUriMatch method for positive unicode URI match case
+     * Tests match method for positive unicode URI match case
      *
      * @return void
      */

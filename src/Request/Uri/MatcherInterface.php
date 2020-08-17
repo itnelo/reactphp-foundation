@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @license https://opensource.org/licenses/GPL-3.0 GPL-3.0
+ * @license https://opensource.org/licenses/mit MIT
  */
 
 declare(strict_types=1);
