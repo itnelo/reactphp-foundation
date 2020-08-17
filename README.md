@@ -30,10 +30,15 @@ This skeleton for self-sufficient, asynchronous microservice contains:
 It follows strong SOLID design and fully PSR-compatible, built
 with PHP 7.4+ features in mind (starting with typed properties). 
 
-It is also relatively lightweight and takes benefits
+It is also _relatively_ lightweight and takes benefits
 from both [Symfony](https://github.com/symfony/symfony) components
 and [ReactPHP](https://github.com/reactphp/reactphp)
 without raising up a heavy artillery setup.
+
+There are a few deployment configurations
+([Docker Compose](https://docs.docker.com/compose) project and
+stack for [Docker Swarm](https://docs.docker.com/engine/swarm/key-concepts),
+featuring [HAProxy](https://www.haproxy.com) as a load balancer for your code).
 
 ## Installation
 
@@ -150,7 +155,7 @@ Apply test suite configuration and run [phpunit](https://github.com/sebastianber
 ```
 $ cp phpunit.xml.dist phpunit.xml
 
-# docker-compose installation
+# for docker-compose installation
 $ docker-compose run --rm app bin/phpunit
 ```
 

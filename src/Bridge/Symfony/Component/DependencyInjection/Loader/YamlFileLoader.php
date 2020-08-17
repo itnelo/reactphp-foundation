@@ -69,7 +69,7 @@ class YamlFileLoader extends BaseYamlFileLoader
 
         $serviceDefinitions = $content['services'];
 
-        if (array_key_exists('_defaults', $serviceDefinitions)) {
+        if (!is_array($serviceDefinitions) || array_key_exists('_defaults', $serviceDefinitions)) {
             return $content;
         }
 
