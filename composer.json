@@ -22,7 +22,7 @@
     "autoload-dev": {
         "psr-4": {
             "Foundation\\Tests\\": [
-                "tests/unit"
+                "tests/unit/"
             ]
         }
     },

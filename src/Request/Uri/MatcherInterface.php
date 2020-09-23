@@ -18,15 +18,15 @@ namespace Foundation\Request\Uri;
 /**
  * Finds context to decide which action should be used to generate a response for the given request.
  *
- * Use a simple ArrayUriMatcher or consider to implement a bridge for the "symfony/routing" component set if more
- * complex conditions are needed.
+ * Use a simple ArrayMatcher or consider to implement a bridge for the "symfony/routing" components if more complex
+ * conditions are needed.
  *
  * @see https://symfony.com/doc/current/routing.html
  */
 interface MatcherInterface
 {
     /**
-     * Returns a context instance of the positive match or NULL if the given URI path can't be processed
+     * Returns a context instance of the positive match or NULL if the given URI path not supported
      *
      * @param string $uriPath URI path from the given request (e.g. /path/to/resource.json)
      *

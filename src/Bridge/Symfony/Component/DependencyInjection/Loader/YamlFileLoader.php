@@ -39,6 +39,13 @@ class YamlFileLoader extends BaseYamlFileLoader
     private ?array $_defaultsParsed;
 
     /**
+     * Parsed "_instanceof" node for services as array
+     *
+     * @var array|null
+     */
+    private ?array $_instanceofParsed;
+
+    /**
      * {@inheritDoc}
      *
      * @param string $defaultsFilePath Points to the YAML file with "_defaults" node at "services" level
@@ -48,7 +55,9 @@ class YamlFileLoader extends BaseYamlFileLoader
         parent::__construct($container, $locator);
 
         $this->defaultsFilePath = $defaultsFilePath;
-        $this->_defaultsParsed  = null;
+
+        $this->_defaultsParsed   = null;
+        $this->_instanceofParsed = null;
     }
 
     /**
@@ -58,7 +67,7 @@ class YamlFileLoader extends BaseYamlFileLoader
     {
         $content = parent::loadFile($file);
 
-        // ignoring file path with shared defaults to prevent circular reference
+        // ignoring file path with global defaults to prevent circular reference.
         if ($file === $this->defaultsFilePath) {
             return $content;
         }
@@ -75,17 +84,21 @@ class YamlFileLoader extends BaseYamlFileLoader
 
         $defaultsParsed = $this->parseDefaults();
 
-        if (null === $defaultsParsed) {
-            return $content;
+        if (null !== $defaultsParsed) {
+            $content['services']['_defaults'] = $defaultsParsed;
         }
 
-        $content['services']['_defaults'] = $defaultsParsed;
+        $instanceofParsed = $this->parseInstanceof();
+
+        if (null !== $instanceofParsed) {
+            $content['services']['_instanceof'] = $instanceofParsed;
+        }
 
         return $content;
     }
 
     /**
-     * Returns content of "_defaults" node considered as a shared service defaults
+     * Returns content of "_defaults" node considered as a global service defaults
      *
      * @return array|null
      */
@@ -98,5 +111,21 @@ class YamlFileLoader extends BaseYamlFileLoader
         }
 
         return $this->_defaultsParsed;
+    }
+
+    /**
+     * Returns content of "_instanceof" node considered as a global service instanceof settings
+     *
+     * @return array|null
+     */
+    private function parseInstanceof(): ?array
+    {
+        if (null === $this->_instanceofParsed) {
+            $content = $this->loadFile($this->defaultsFilePath);
+
+            $this->_instanceofParsed = $content['services']['_instanceof'] ?? [];
+        }
+
+        return $this->_instanceofParsed;
     }
 }

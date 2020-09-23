@@ -73,12 +73,12 @@ To                         Action      From
 7946/udp                   ALLOW       192.169.56.0/24
 ```
 
-**Limitations**. This setup assumes you are using a single haproxy instance,
+**Limitations**. This setup assumes you are using a single HAProxy instance,
 on the fixed node in the cluster and only that node will have its ports published:
 
 ![how it works schema](https://github.com/itnelo/reactphp-foundation/blob/master/.github/images/how_it_works_schema.png)
 
-**Step 1**. Create a manager node (for haproxy with exposed ports):
+**Step 1**. Create a manager node (for HAProxy with exposed ports):
 
 ```
 # our pc
@@ -127,7 +127,7 @@ $ set -a; . .env; set +a && envsubst < docker-compose.stack.yml.dist > docker-co
 You should also adjust placement constraints
 (according to **Step 2**) to ensure Swarm scheduler is able to assign tasks
 to the configured nodes. Check `haproxy.stack.cfg` from the `docker` directory
-if you have changed some ports or just use a custom haproxy image as well.
+if you have changed some ports or just use a custom HAProxy image as well.
 
 **Step 5**. Deploy services:
 
