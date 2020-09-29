@@ -34,7 +34,7 @@
         "psr/http-message": "^1.0",
         "psr/log": "^1.1",
         "react/event-loop": "^1.1",
-        "react/http": "^0.8.6",
+        "react/http": "^1.1",
         "react/stream": "^1.1",
         "symfony/config": "^5.1",
         "symfony/dependency-injection": "^5.1",

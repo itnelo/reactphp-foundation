@@ -2,7 +2,6 @@
 services:
     app.request.handler:
         alias: 'app.request.handler.example_handler'
-        public: true
 
     app.request.handler.example_handler:
         class: Foundation\Request\Handler\ExampleHandler

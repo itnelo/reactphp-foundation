@@ -22,7 +22,7 @@ use Foundation\Request\Uri\MatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as RequestInterface;
 use Psr\Log\LoggerInterface;
-use React\Http\Response;
+use React\Http\Message\Response;
 
 /**
  * Request handler example

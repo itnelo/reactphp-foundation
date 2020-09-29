@@ -20,7 +20,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader as BaseYamlFileLoader;
 
 /**
- * Loads service definitions from YAML files and takes into account shared "_defaults" configuration for all services
+ * Loads service definitions from YAML files and takes into account shared "_defaults" and "_instanceof" configurations
+ * for all services.
  */
 class YamlFileLoader extends BaseYamlFileLoader
 {
