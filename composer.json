@@ -2,6 +2,7 @@
     "name": "itnelo/reactphp-foundation",
     "type": "project",
     "description": "Some hull parts and scrap to bootstrap an elegant spacecraft w/ ReactPHP",
+    "keywords": ["php", "reactphp"],
     "homepage": "https://github.com/itnelo/reactphp-foundation",
     "license": "MIT",
     "authors": [
